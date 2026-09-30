@@ -1,0 +1,6 @@
+{
+  "name": "BHUMITRA - Smart Crop Decisions. Better Harvests.",
+  "description": "AI-powered crop recommendation platform for farmers, students, and agriculture users based on soil, season, rainfall, and water availability.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

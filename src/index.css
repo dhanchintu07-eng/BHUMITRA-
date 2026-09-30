@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+  
+  h1, h2, h3, .font-heading {
+    font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+}
+
+/* Accessibility Modes */
+[data-font-size="large"] {
+  font-size: 112.5%;
+}
+
+[data-high-contrast="true"] {
+  --tw-contrast: high;
+  filter: contrast(1.15);
+}
+
+[data-high-contrast="true"] .bg-white {
+  background-color: #ffffff !important;
+  border-color: #047857 !important;
+}
+
+[data-high-contrast="true"] .text-slate-600 {
+  color: #1e293b !important;
+}
+
+/* Print view for Crop Advisory Card */
+@media print {
+  nav, footer, .no-print, button:not(.print-allow) {
+    display: none !important;
+  }
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .print-card {
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+}
