@@ -4,7 +4,51 @@ export type WaterAvailability = 'low' | 'medium' | 'high';
 export type LandUnit = 'Acres' | 'Hectares' | 'Bigha' | 'Guntha';
 export type LanguageCode = 'en' | 'hi' | 'pa' | 'mr' | 'te' | 'ta' | 'kn';
 
-export type AppPage = 'home' | 'wizard' | 'results' | 'charts' | 'compare' | 'helpdesk' | 'ask' | 'saved';
+export type AppPage =
+  | 'home'
+  | 'news'
+  | 'apmc'
+  | 'wizard'
+  | 'results'
+  | 'schemes'
+  | 'charts'
+  | 'compare'
+  | 'helpdesk'
+  | 'ask'
+  | 'saved';
+
+export type AgriNewsCategory =
+  | 'all'
+  | 'rainfall'
+  | 'government'
+  | 'markets'
+  | 'crops'
+  | 'technology'
+  | 'schemes';
+
+export interface GroundingWebSource {
+  title: string;
+  uri: string;
+}
+
+export interface AgriNewsArticle {
+  id: string;
+  category: Exclude<AgriNewsCategory, 'all'>;
+  title: string;
+  titleKn: string;
+  titleHi: string;
+  summary: string;
+  summaryKn: string;
+  summaryHi: string;
+  whyItMatters: string;
+  whyItMattersKn: string;
+  whyItMattersHi: string;
+  sourceName: string;
+  sourceUrl: string;
+  publishedDate: string;
+  isLiveGrounded?: boolean;
+  regionTag: string;
+}
 
 export interface UserFarmingConditions {
   location: string;
@@ -93,6 +137,8 @@ export interface SavedPlan {
   conditions: UserFarmingConditions;
   topCrops: Crop[];
   aiInsight: string;
+  remindersEnabled?: boolean;
+  sowingDate?: string;
 }
 
 export interface RecentSearch {
@@ -100,4 +146,38 @@ export interface RecentSearch {
   label: string;
   conditions: UserFarmingConditions;
   date: string;
+}
+
+export type NotificationStageCategory =
+  | 'fertilization'
+  | 'harvest'
+  | 'irrigation'
+  | 'flowering'
+  | 'pest_scouting';
+
+export interface GrowthStageNotification {
+  id: string;
+  planId: string;
+  planLocation: string;
+  season: Season;
+  cropId: string;
+  cropName: string;
+  stageName: string;
+  stageCategory: NotificationStageCategory;
+  dayWindow: string;
+  title: string;
+  message: string;
+  actionableDosage: string;
+  timestamp: string;
+  isRead: boolean;
+}
+
+export interface SecurityAuditResult {
+  verified: boolean;
+  sessionAuthorized: boolean;
+  threatLevel: 'NONE' | 'WARNING' | 'BLOCKED';
+  threatCategory?: string;
+  policyCheck: string;
+  sanitizedInput: boolean;
+  timestamp: string;
 }

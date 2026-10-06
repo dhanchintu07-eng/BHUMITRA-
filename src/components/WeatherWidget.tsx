@@ -20,11 +20,13 @@ interface WeatherWidgetProps {
   language: LanguageCode;
   selectedLocation: string;
   onLocationUpdate?: (newLocation: string) => void;
+  onWeatherFetched?: (data: WeatherData) => void;
 }
 
 export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
   language,
   selectedLocation,
+  onWeatherFetched,
 }) => {
   const t = TRANSLATIONS[language];
   const [weather, setWeather] = useState<WeatherData | null>(null);
@@ -35,6 +37,7 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
     try {
       const data = await fetchLiveWeather(loc || selectedLocation);
       setWeather(data);
+      if (onWeatherFetched) onWeatherFetched(data);
     } catch (err) {
       console.error(err);
     } finally {
@@ -63,7 +66,7 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
           const current = data.current || {};
           const daily = data.daily || {};
 
-          setWeather({
+          const gpsData: WeatherData = {
             locationName: `GPS Farm Coordinates (${lat.toFixed(2)}°N, ${lon.toFixed(2)}°E)`,
             temperature: Math.round(current.temperature_2m ?? 28),
             humidity: Math.round(current.relative_humidity_2m ?? 65),
@@ -74,7 +77,9 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
             forecastRainfallMm: Math.round((daily.precipitation_sum?.[0] ?? 0) * 10) / 10,
             farmingAdvisory: 'Local GPS conditions verified. Safe for normal scheduled field activities.',
             isLive: true,
-          });
+          };
+          setWeather(gpsData);
+          if (onWeatherFetched) onWeatherFetched(gpsData);
         } catch {
           loadWeather(selectedLocation);
         } finally {
